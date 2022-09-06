@@ -1,0 +1,122 @@
+<!--<div class="row justify-content-center justify-content-md-center mt-3">
+  <div class="card col-11 col-lg-5 p-3 shadow">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-2 col-2">
+          <button type="button" id="btnRedondo" class="btn btn-primary shadow mx-1" routerLink="/menu"><i class="fas fa-arrow-left"></i></button>
+        </div>
+        <div class="col-lg-10 col-10">
+          <h4 class="card-title">Certificado uso de suelo</h4>
+        </div>
+      </div>
+
+      <hr />
+      <div class="justify-content-md-center mt-3">
+        <div class="row">
+          <form [formGroup]="form" (ngSubmit)="Guardar($event)">
+
+            <div class="form-floating mt-1">
+              <input type="text" formControlName="nombre" class="form-control" id="floatingInput" placeholder="nombre solicitante">
+              <label *ngIf="form.get('nombre').untouched || form.get('nombre').valid" class="mx-2" for="floatingInput">nombre solicitante</label>
+              <label *ngIf="form.get('nombre').errors && form.get('nombre').touched" class="mx-2" for="floatingInput" style="color:red"><i class="fa-solid fa-triangle-exclamation"></i> ingresar nombre</label>
+            </div>
+
+            <div class="form-floating mt-1">
+              <input type="text" formControlName="direccion" class="form-control col-lg-12" id="floatingInput" placeholder="Dirección del predio">
+              <label *ngIf="form.get('direccion').untouched || form.get('direccion').valid" class="mx-2" for="floatingInput">Dirección del predio</label>
+              <label *ngIf="form.get('direccion').errors && form.get('direccion').touched" class="mx-2" for="floatingInput" style="color:red"><i class="fa-solid fa-triangle-exclamation"></i> ingresar dirección predio</label>
+            </div>
+
+
+            <div class="row">
+              <div class="form-floating col-12 col-lg-6 mt-1">
+                <input type="number" formControlName="cedula" class="form-control col-lg-12" id="floatingInput" placeholder="Identificacion del solicitante">
+                <label *ngIf="form.get('cedula').untouched || form.get('cedula').valid" class="mx-2" for="floatingInput">Identificacion del solicitante</label>
+                <label *ngIf="form.get('cedula').errors && form.get('cedula').touched" class="mx-2" for="floatingInput" style="color:red"><i class="fa-solid fa-triangle-exclamation"></i> ingresar identificacion</label>
+              </div>
+
+              <div class="form-floating col-12 col-lg-6 mt-1">
+                <input type="number" formControlName="telefono" class="form-control col-lg-12" id="floatingInput" placeholder="Teléfono">
+                <label *ngIf="form.get('telefono').untouched || form.get('telefono').valid" class="mx-2" for="floatingInput">Teléfono</label>
+                <label *ngIf="form.get('telefono').errors && form.get('telefono').touched" class="mx-2" for="floatingInput" style="color:red"><i class="fa-solid fa-triangle-exclamation"></i> ingresar teléfono</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-floating col-12 col-lg-6 mt-1 my-1">
+                <input type="email" formControlName="correo" class="form-control col-lg-12" id="floatingInput" placeholder="opcional correo">
+                <label class="mx-2" for="floatingInput">Correo</label>
+              </div>
+
+              <div class="form-floating col-12 col-lg-6 mt-1">
+                <input type="text" formControlName="catastral" class="form-control col-lg-12" id="floatingInput" placeholder="Número catastral del predio">
+                <label *ngIf="form.get('catastral').untouched || form.get('catastral').valid" class="mx-2" for="floatingInput">Número catastral del predio</label>
+                <label *ngIf="form.get('catastral').errors && form.get('catastral').touched" class="mx-2" for="floatingInput" style="color:red"><i class="fa-solid fa-triangle-exclamation"></i> ingresar número catastral</label>
+              </div>
+              <div *ngIf="form.get('catastral').errors && form.get('catastral').touched" class="col-lg-12" style="color:red">
+                <span id="error" class="help-block">Debe ingresar 20 o 30 caracteres - solo números</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-floating col-lg-10 col-12 mt-1">
+                <select class="form-select" formControlName="IdSolicitud" id="floatingSelect">
+                  <option *ngIf="!spinFU" value='0'>Seleccione..</option>
+                  <option *ngIf="spinFU" value='0'>cargando datos..</option>
+                  <option *ngFor="let list of listaFuncionTanque; let i = index;" value={{list.IdFuncion}}>{{list.NombreFuncion}}</option>
+                </select>
+                <label class="mx-2" for="floatingSelect">uso de suelo</label>
+              </div>
+
+              <div class="col-lg-1 col-2 py-2">
+                <button type="submit" [disabled]="form.invalid" id="btnRedondo" class="btn btn-primary shadow mx-1"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </form>
+
+          <div class="mt-3">
+            <ul *ngIf="spinL" class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="spinner-grow text-primary" role="status">
+                  <span class="visually-hidden"></span>
+                </div>
+              </li>
+            </ul>
+            <ul class="list-group list-group-flush" *ngFor="let item of arregloListaSiembra; let i = index;">
+              <li *ngIf="!spinL" class="list-group-item">
+                <div class="row">
+                  <button type="button" class="list-group-item list-group-item-action" (click)="SeleccionB(i)" aria-current="true">
+                    <div class="row">
+                      <div class="col-2">
+                        <h2><i class="fa-solid fa-fish-fins" style="color:var(--secondary);"></i></h2>
+                      </div>
+                      <div class="col-10">
+                        <label class="form-check-label" for="flexSwitchCheckDefault"><h5>{{item.CodigoLote}}</h5></label>
+                        <h6>unidad cultivo: {{item.CodigoUnidadCultivo}}</h6>
+                        <h6>cantidad: {{item.Cantidad}}</h6>
+                        <h6>fecha: {{item.Fecha | date:'mediumDate'}}</h6>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="btn-group col-12 col-lg-12 mx-auto mt-3" role="group">
+            <button type="button" class="btn btn-primary" routerLink="/menu">
+              <i class="fas fa-times"></i> Salir
+            </button>
+
+            <button type="button"  class="btn btn-primary">
+              <span *ngIf="spinG" class="spinner-border spinner-border-sm"></span>
+              <i *ngIf="!spinG" class="fas fa-check"></i> Guardar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
